@@ -1,15 +1,15 @@
 <?php
 
-class home
+class home extends Controller
 {
     public function index()
     {
-        require_once '../app/views/home/index.php';
+        $this->view('home/index');
     }
 
     public function login()
     {
-        require_once '../app/views/home/login.php';
+        $this->view('home/login');
     }
 }
 

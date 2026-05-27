@@ -11,8 +11,15 @@ class App
         $urlProcessed = $this->UrlProcess();
 
         // Controller
-        if (isset($urlProcessed[0])) {
-            if (file_exists('../app/controllers/' . $urlProcessed[0] . '.php')) {
+        if (!empty($urlProcessed[0])) {
+
+            if (
+                file_exists(
+                    '../app/controllers/' .
+                    $urlProcessed[0] .
+                    '.php'
+                )
+            ) {
 
                 $this->controller = $urlProcessed[0];
 
@@ -20,14 +27,22 @@ class App
             }
         }
 
-        require_once '../app/controllers/' . $this->controller . '.php';
+        require_once
+            '../app/controllers/' .
+            $this->controller .
+            '.php';
 
         $this->controller = new $this->controller;
 
         // Action
-        if (isset($urlProcessed[1])) {
+        if (!empty($urlProcessed[1])) {
 
-            if (method_exists($this->controller, $urlProcessed[1])) {
+            if (
+                method_exists(
+                    $this->controller,
+                    $urlProcessed[1]
+                )
+            ) {
 
                 $this->action = $urlProcessed[1];
 
