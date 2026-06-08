@@ -1,4 +1,5 @@
 <?php
+require_once '../app/core/controller.php';
 
 class sinhvien extends Controller
 {
@@ -9,15 +10,44 @@ class sinhvien extends Controller
         $sinhvien = $sinhvienModel->getAllSinhvien();
 
         $this->view(
-            "sinhvien/index",
-            ['sinhvien' => $sinhvien]
+            'layout/masterlayout',
+            [
+                'viewname' => 'sinhvien/index',
+                'sinhvien' => $sinhvien
+            ]
         );
     }
 
     public function create()
     {
-        $this->view('sinhvien/create');
+        $this->view(
+            'layout/masterlayout',
+            [
+                'viewname' => 'sinhvien/create'
+            ]
+        );
     }
-}
 
-?>
+    public function store()
+    {
+        $ten = $_POST['ten'] ?? '';
+        $gioitinh = $_POST['gioitinh'] ?? '';
+        $mss = $_POST['mss'] ?? '';
+
+        $sinhvienModel = $this->model('SinhvienModel');
+
+        $result = $sinhvienModel->create($ten, $gioitinh, $mss);
+
+        if ($result) {
+
+            header(
+                'Location: /PMNM_68PM3_MORLVOTEY_5001568-MAIN/public/sinhvien/index'
+            );
+            exit;
+
+        } else {
+
+            echo "Thêm mới sinh viên thất bại";
+        }
+    }
+} // đóng class

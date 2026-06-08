@@ -43,7 +43,7 @@ class auth extends Controller
         session_destroy();
 
         header(
-            'Location: /PMNM_68PM3_MORLVOTEY_5001568-MAIN/public/auth/login'
+            'Location: /PMNM_68PM3_MORLVOTEY_5001568-MAIN/public/auth/login'//home/login
         );
 
         exit();
