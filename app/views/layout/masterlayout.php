@@ -5,28 +5,33 @@
     <title>Quản lý sinh viên</title>
 
     <style>
-        .header{
-            width:100%;
-            height:80px;
-            background:red;
-            color:white;
-            padding:20px;
-        }
+       *{
+    box-sizing: border-box;
+}
 
-        .content{
-            width:80%;
-            margin:auto;
-            padding:20px;
-        }
+.header{
+    width:100%;
+    min-height:80px;
+    background:red;
+    color:white;
+    padding:20px;
+}
 
-        .footer{
-            width:100%;
-            height:80px;
-            background:blue;
-            color:white;
-            padding:20px;
-            margin-top:20px;
-        }
+.content{
+    width:80%;
+    margin:auto;
+    padding:20px;
+    min-height:500px;
+}
+
+.footer{
+    width:100%;
+    min-height:80px;
+    background:blue;
+    color:white;
+    padding:20px;
+    margin-top:20px;
+}
     </style>
 </head>
 <body>

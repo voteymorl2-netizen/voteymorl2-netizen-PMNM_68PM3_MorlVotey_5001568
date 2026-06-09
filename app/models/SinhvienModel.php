@@ -48,5 +48,33 @@ class SinhvienModel
 
         return $stmt->execute();
     }
+    public function paging($limit = 5, $offset = 0, $search = "")
+{
+    // SQL lấy dữ liệu phân trang
+    $query = "SELECT * FROM sinhvien LIMIT :limit OFFSET :offset";
+    $stmt = $this->conn->prepare($query);
+
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+
+    $stmt->execute();
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Đếm tổng số bản ghi
+    $countQuery = $this->conn->prepare("SELECT COUNT(*) FROM sinhvien");
+    $countQuery->execute();
+    $totalRecord = $countQuery->fetchColumn();
+
+    // Tính tổng số trang
+    $totalPage = ceil($totalRecord / $limit);
+
+    return [
+        "data" => $data,
+        "totalRecord" => $totalRecord,
+        "totalPage" => $totalPage,
+        "currentPage" => ($offset / $limit) + 1
+    ];
+}
+
 }
 ?>
