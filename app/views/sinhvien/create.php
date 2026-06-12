@@ -77,7 +77,11 @@
 
     <h1>➕ Thêm Sinh Viên</h1>
 
+<<<<<<< HEAD
     <form action="/sinhvien/store" method="POST">
+=======
+    <form action="/PMNM_68PM3_MORLVOTEY_5001568-MAIN/public/sinhvien/store" method="POST">
+>>>>>>> a7440723571c663c63b9dde9b293be2323a2229a
 
         <div class="form-group">
             <label>Tên sinh viên</label>

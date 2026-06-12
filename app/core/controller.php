@@ -14,6 +14,7 @@ class Controller
 
         require_once '../app/views/' . $viewName . '.php';
     }
+<<<<<<< HEAD
     public function update($id)
 {
     $model = $this->model('SinhvienModel');
@@ -28,4 +29,6 @@ class Controller
     header('Location: /sinhvien/index');
     exit;
 }
+=======
+>>>>>>> a7440723571c663c63b9dde9b293be2323a2229a
 }

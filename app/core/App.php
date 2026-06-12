@@ -8,6 +8,7 @@ class App
 
     public function __construct()
     {
+<<<<<<< HEAD
         $url = $this->UrlProcess();
 
         // CONTROLLER
@@ -39,6 +40,54 @@ class App
 
         // PARAMS
         $this->params = $url ? array_values($url) : [];
+=======
+        $urlProcessed = $this->UrlProcess();
+
+        // Controller
+        if (!empty($urlProcessed[0])) {
+
+            if (
+                file_exists(
+                    '../app/controllers/' .
+                    $urlProcessed[0] .
+                    '.php'
+                )
+            ) {
+
+                $this->controller = $urlProcessed[0];
+
+                unset($urlProcessed[0]);
+            }
+        }
+
+        require_once
+            '../app/controllers/' .
+            $this->controller .
+            '.php';
+
+        $this->controller = new $this->controller;
+
+        // Action
+        if (!empty($urlProcessed[1])) {
+
+            if (
+                method_exists(
+                    $this->controller,
+                    $urlProcessed[1]
+                )
+            ) {
+
+                $this->action = $urlProcessed[1];
+
+                unset($urlProcessed[1]);
+            }
+        }
+
+        // Params
+        $this->params = $urlProcessed
+            ? array_values($urlProcessed)
+            : [];
+>>>>>>> a7440723571c663c63b9dde9b293be2323a2229a
 
         call_user_func_array(
             [$this->controller, $this->action],
@@ -49,9 +98,19 @@ class App
     public function UrlProcess()
     {
         if (isset($_GET['url'])) {
+<<<<<<< HEAD
             return explode(
                 '/',
                 filter_var(trim($_GET['url'], '/'), FILTER_SANITIZE_URL)
+=======
+
+            return explode(
+                '/',
+                filter_var(
+                    trim($_GET['url'], '/'),
+                    FILTER_SANITIZE_URL
+                )
+>>>>>>> a7440723571c663c63b9dde9b293be2323a2229a
             );
         }
 

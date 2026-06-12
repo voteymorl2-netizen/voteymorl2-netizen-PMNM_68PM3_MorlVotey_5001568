@@ -12,6 +12,7 @@ class SinhvienModel
         $this->conn = $db->connect();
     }
 
+<<<<<<< HEAD
     // =========================
     // LẤY TẤT CẢ SINH VIÊN
     // =========================
@@ -19,11 +20,20 @@ class SinhvienModel
     {
         $query = "SELECT * FROM sinhvien";
         $stmt = $this->conn->prepare($query);
+=======
+    public function getAllSinhvien()
+    {
+        $query = "SELECT * FROM sinhvien";
+
+        $stmt = $this->conn->prepare($query);
+
+>>>>>>> a7440723571c663c63b9dde9b293be2323a2229a
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+<<<<<<< HEAD
     // =========================
     // THÊM SINH VIÊN
     // =========================
@@ -32,6 +42,23 @@ class SinhvienModel
         $query = "
             INSERT INTO sinhvien (ten, gioitinh, mss)
             VALUES (:ten, :gioitinh, :mss)
+=======
+    public function create($ten, $gioitinh, $mss)
+    {
+        $query = "
+            INSERT INTO sinhvien
+            (
+                ten,
+                gioitinh,
+                mss
+            )
+            VALUES
+            (
+                :ten,
+                :gioitinh,
+                :mss
+            )
+>>>>>>> a7440723571c663c63b9dde9b293be2323a2229a
         ";
 
         $stmt = $this->conn->prepare($query);
@@ -42,6 +69,7 @@ class SinhvienModel
 
         return $stmt->execute();
     }
+<<<<<<< HEAD
 
     // =========================
     // LẤY THEO ID (EDIT)
@@ -122,3 +150,35 @@ class SinhvienModel
         ];
     }
 }
+=======
+    public function paging($limit = 5, $offset = 0, $search = "")
+{
+    // SQL lấy dữ liệu phân trang
+    $query = "SELECT * FROM sinhvien LIMIT :limit OFFSET :offset";
+    $stmt = $this->conn->prepare($query);
+
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+
+    $stmt->execute();
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Đếm tổng số bản ghi
+    $countQuery = $this->conn->prepare("SELECT COUNT(*) FROM sinhvien");
+    $countQuery->execute();
+    $totalRecord = $countQuery->fetchColumn();
+
+    // Tính tổng số trang
+    $totalPage = ceil($totalRecord / $limit);
+
+    return [
+        "data" => $data,
+        "totalRecord" => $totalRecord,
+        "totalPage" => $totalPage,
+        "currentPage" => ($offset / $limit) + 1
+    ];
+}
+
+}
+?>
+>>>>>>> a7440723571c663c63b9dde9b293be2323a2229a

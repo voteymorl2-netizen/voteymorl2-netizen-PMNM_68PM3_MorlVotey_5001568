@@ -1,6 +1,22 @@
+<<<<<<< HEAD
 
 RewriteEngine On
 RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+=======
+RewriteEngine On
+
+# Không cho xem cấu trúc thư mục
+Options -Indexes
+
+# Nếu không phải file thật
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Nếu không phải folder thật
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Rewrite URL
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+>>>>>>> a7440723571c663c63b9dde9b293be2323a2229a
