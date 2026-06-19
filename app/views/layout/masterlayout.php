@@ -1,52 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <title>Quản lý sinh viên</title>
 
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-       *{
-    box-sizing: border-box;
-}
+        body {
+            background: #f5f5f5;
+        }
 
-.header{
-    width:100%;
-    min-height:80px;
-    background:red;
-    color:white;
-    padding:20px;
-}
+        .content {
+            min-height: 600px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
 
-.content{
-    width:80%;
-    margin:auto;
-    padding:20px;
-    min-height:500px;
-}
-
-.footer{
-    width:100%;
-    min-height:80px;
-    background:blue;
-    color:white;
-    padding:20px;
-    margin-top:20px;
-}
+        footer {
+            background: #212529;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
     </style>
+
 </head>
+
 <body>
 
-<div class="header">
+    <!-- Header -->
     <?php require_once '../app/views/layout/partial/header.php'; ?>
-</div>
 
-<div class="content">
-    <?php require_once '../app/views/' . $viewname . '.php'; ?>
-</div>
+    <!-- Content -->
+    <div class="container content">
 
-<div class="footer">
+        <?php require_once '../app/views/' . $viewname . '.php'; ?>
+
+    </div>
+
+    <!-- Footer -->
     <?php require_once '../app/views/layout/partial/footer.php'; ?>
-</div>
 
 </body>
+
 </html>

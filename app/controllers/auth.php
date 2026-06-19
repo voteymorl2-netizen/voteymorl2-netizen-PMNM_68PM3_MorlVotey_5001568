@@ -9,11 +9,10 @@ class auth extends Controller
 
     public function login()
     {
-        // Submit form
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $username = $_POST['username'];
-            $password = $_POST['password'];
+            $username = $_POST['username'] ?? '';
+            $password = $_POST['password'] ?? '';
 
             if (
                 isset($this->users[$username]) &&
@@ -22,19 +21,20 @@ class auth extends Controller
 
                 $_SESSION['username'] = $username;
 
-                header(
-                    'Location: /PMNM_68PM3_MORLVOTEY_5001568-MAIN/public/home/index'
-                );
-
+                // Chuyển sang trang quản lý sinh viên
+                header('Location: /sinhvien/index');
                 exit();
 
             } else {
 
-                echo "Login failed";
+                echo "<script>
+                        alert('Sai tài khoản hoặc mật khẩu!');
+                        window.location='/auth/login';
+                      </script>";
+                exit();
             }
         }
 
-        // Load view
         $this->view('home/login');
     }
 
@@ -42,10 +42,7 @@ class auth extends Controller
     {
         session_destroy();
 
-        header(
-            'Location: /PMNM_68PM3_MORLVOTEY_5001568-MAIN/public/auth/login'//home/login
-        );
-
+        header('Location: /auth/login');
         exit();
     }
 }

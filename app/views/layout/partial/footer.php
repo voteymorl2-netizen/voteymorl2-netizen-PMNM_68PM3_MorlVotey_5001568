@@ -1,3 +1,5 @@
-<div style="background:blue;height:80px">
-    <h1>FOOTER</h1>
-</div>
+<footer>
+
+    © 2026 Hệ thống Quản lý Sinh viên
+
+</footer>

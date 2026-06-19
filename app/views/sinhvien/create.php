@@ -1,127 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-    .form-container{
-        width:500px;
-        margin:50px auto;
-        padding:30px;
-        background:#fff;
-        border-radius:10px;
-        box-shadow:0 4px 12px rgba(0,0,0,0.15);
-    }
+    <title>Thêm Sinh Viên</title>
 
-    .form-container h1{
-        text-align:center;
-        color:#333;
-        margin-bottom:25px;
-    }
-
-    .form-group{
-        margin-bottom:18px;
-    }
-
-    .form-group label{
-        display:block;
-        font-weight:bold;
-        margin-bottom:6px;
-        color:#444;
-    }
-
-    .form-group input[type="text"],
-    .form-group select{
-        width:100%;
-        padding:10px;
-        border:1px solid #ccc;
-        border-radius:5px;
-        font-size:14px;
-    }
-
-    .form-group input[type="text"]:focus,
-    .form-group select:focus{
-        outline:none;
-        border-color:#28a745;
-        box-shadow:0 0 5px rgba(40,167,69,0.4);
-    }
-
-    .btn-submit{
-        width:100%;
-        padding:12px;
-        background:#28a745;
-        color:white;
-        border:none;
-        border-radius:5px;
-        cursor:pointer;
-        font-size:16px;
-        font-weight:bold;
-        transition:0.3s;
-    }
-
-    .btn-submit:hover{
-        background:#218838;
-        transform:translateY(-2px);
-    }
-
-    
-
-    
-
-   
-</style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="form-container">
 
-    <h1>➕ Thêm Sinh Viên</h1>
+<body class="bg-light">
 
-<<<<<<< HEAD
-    <form action="/sinhvien/store" method="POST">
-=======
-    <form action="/PMNM_68PM3_MORLVOTEY_5001568-MAIN/public/sinhvien/store" method="POST">
->>>>>>> a7440723571c663c63b9dde9b293be2323a2229a
+<div class="container mt-5">
 
-        <div class="form-group">
-            <label>Tên sinh viên</label>
-            <input
-                type="text"
-                name="ten"
-                placeholder="Nhập tên sinh viên"
-                required
-            >
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow">
+
+                <!-- HEADER -->
+                <div class="card-header bg-success text-white text-center">
+                    <h4 class="mb-0">Thêm Sinh Viên</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <form action="/sinhvien/store" method="POST">
+
+                        <!-- Tên -->
+                        <div class="mb-3">
+                            <label class="form-label">Tên sinh viên</label>
+                            <input type="text"
+                                   name="ten"
+                                   class="form-control"
+                                   placeholder="Nhập tên sinh viên"
+                                   required>
+                        </div>
+
+                        <!-- Giới tính -->
+                        <div class="mb-3">
+                            <label class="form-label">Giới tính</label>
+                            <select name="gioitinh" class="form-select" required>
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                            </select>
+                        </div>
+
+                        <!-- MSSV -->
+                        <div class="mb-3">
+                            <label class="form-label">MSSV</label>
+                            <input type="text"
+                                   name="mss"
+                                   class="form-control"
+                                   placeholder="Nhập mã sinh viên"
+                                   required>
+                        </div>
+
+                        <!-- Lớp học -->
+                        <div class="mb-3">
+                            <label class="form-label">Lớp học</label>
+                            <select name="malop" class="form-select" required>
+
+                                <option value="">-- Chọn lớp --</option>
+
+                                <option value="68PM3">68PM3</option>
+                                <option value="CNTT01">CNTT01</option>
+                                <option value="CNTT02">CNTT02</option>
+                                <option value="ATTT01">ATTT01</option>
+                                <option value="HTTT01">HTTT01</option>
+                                <option value="KTPM01">KTPM01</option>
+
+                            </select>
+                        </div>
+
+                        <!-- BUTTON -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">
+                                Thêm Sinh Viên
+                            </button>
+
+                            <a href="/sinhvien/index" class="btn btn-secondary">
+                                Hủy
+                            </a>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="form-group">
-            <label>Giới tính</label>
-
-            <select name="gioitinh" required>
-               
-                <option value="M">Nam</option>
-                <option value="F">Nữ</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>MSSV</label>
-            <input
-                type="text"
-                name="mss"
-                placeholder="Nhập mã số sinh viên"
-                required
-            >
-        </div>
-
-        <button type="submit" class="btn-submit">
-            Thêm Sinh Viên
-        </button>
-
-    </form>
-
-    
+    </div>
 
 </div>
-    
+
 </body>
 </html>

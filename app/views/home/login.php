@@ -1,128 +1,81 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập</title>
 
-    <style>
-
-        *{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        body{
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg,#4facfe,#00f2fe);
-        }
-
-        .login-box{
-            width: 350px;
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        .login-box h1{
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
-        }
-
-        .form-group{
-            margin-bottom: 20px;
-        }
-
-        .form-group label{
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: bold;
-        }
-
-        .form-group input{
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        .form-group input:focus{
-            border-color: #4facfe;
-        }
-
-        .btn-login{
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background: #4facfe;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-login:hover{
-            background: #0099ff;
-        }
-
-    </style>
-
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-light">
 
-    <div class="login-box">
+<div class="container">
 
-        <h1>Đăng nhập</h1>
+    <div class="row justify-content-center align-items-center vh-100">
 
-        <form action="/PMNM_68PM3_MorlVotey_5001568-main/public/auth/login" method="POST">
+        <div class="col-md-5 col-lg-4">
 
-            <div class="form-group">
+            <div class="card shadow-lg border-0">
 
-                <label>Tên đăng nhập</label>
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="mb-0">Đăng nhập hệ thống</h3>
+                </div>
 
-                <input
-                    type="text"
-                    name="username"
-                    placeholder="Nhập tên đăng nhập"
-                    required
-                >
+                <div class="card-body p-4">
+
+                    <form action="/auth/login" method="POST">
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                Tên đăng nhập
+                            </label>
+
+                            <input
+                                type="text"
+                                name="username"
+                                class="form-control"
+                                placeholder="Nhập tên đăng nhập"
+                                required
+                            >
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                Mật khẩu
+                            </label>
+
+                            <input
+                                type="password"
+                                name="password"
+                                class="form-control"
+                                placeholder="Nhập mật khẩu"
+                                required
+                            >
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary w-100">
+                            Đăng nhập
+                        </button>
+
+                    </form>
+
+                </div>
+
+                
 
             </div>
 
-            <div class="form-group">
-
-                <label>Mật khẩu</label>
-
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Nhập mật khẩu"
-                    required
-                >
-
-            </div>
-
-            <button type="submit" class="btn-login">
-                Đăng nhập
-            </button>
-
-        </form>
+        </div>
 
     </div>
 
-</body>
+</div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
 </html>

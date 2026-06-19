@@ -12,53 +12,26 @@ class SinhvienModel
         $this->conn = $db->connect();
     }
 
-<<<<<<< HEAD
-    // =========================
-    // LẤY TẤT CẢ SINH VIÊN
-    // =========================
-    public function getAllSinhvien()
-    {
-        $query = "SELECT * FROM sinhvien";
-        $stmt = $this->conn->prepare($query);
-=======
-    public function getAllSinhvien()
-    {
-        $query = "SELECT * FROM sinhvien";
+    
+public function getAll()
+{
+    $sql = "SELECT sv.*, lh.tenlop 
+            FROM sinhvien sv
+            LEFT JOIN lophoc lh ON sv.malop = lh.malop";
 
-        $stmt = $this->conn->prepare($query);
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
 
->>>>>>> a7440723571c663c63b9dde9b293be2323a2229a
-        $stmt->execute();
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-<<<<<<< HEAD
-    // =========================
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+    // ======================
     // THÊM SINH VIÊN
-    // =========================
-    public function create($ten, $gioitinh, $mss)
+    // ======================
+    public function create($ten, $gioitinh, $mss, $malop)
     {
         $query = "
-            INSERT INTO sinhvien (ten, gioitinh, mss)
-            VALUES (:ten, :gioitinh, :mss)
-=======
-    public function create($ten, $gioitinh, $mss)
-    {
-        $query = "
-            INSERT INTO sinhvien
-            (
-                ten,
-                gioitinh,
-                mss
-            )
-            VALUES
-            (
-                :ten,
-                :gioitinh,
-                :mss
-            )
->>>>>>> a7440723571c663c63b9dde9b293be2323a2229a
+            INSERT INTO sinhvien (ten, gioitinh, mss, malop)
+            VALUES (:ten, :gioitinh, :mss, :malop)
         ";
 
         $stmt = $this->conn->prepare($query);
@@ -66,17 +39,17 @@ class SinhvienModel
         $stmt->bindParam(':ten', $ten);
         $stmt->bindParam(':gioitinh', $gioitinh);
         $stmt->bindParam(':mss', $mss);
+        $stmt->bindParam(':malop', $malop);
 
         return $stmt->execute();
     }
-<<<<<<< HEAD
 
-    // =========================
-    // LẤY THEO ID (EDIT)
-    // =========================
+    // ======================
+    // LẤY THEO ID
+    // ======================
     public function getById($id)
     {
-        $query = "SELECT * FROM sinhvien WHERE Id = :id";
+        $query = "SELECT * FROM sinhvien WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -85,17 +58,18 @@ class SinhvienModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // =========================
-    // UPDATE SINH VIÊN
-    // =========================
-    public function update($id, $ten, $gioitinh, $mss)
+    // ======================
+    // UPDATE
+    // ======================
+    public function update($id, $ten, $gioitinh, $mss, $malop)
     {
         $query = "
-            UPDATE sinhvien 
+            UPDATE sinhvien
             SET ten = :ten,
                 gioitinh = :gioitinh,
-                mss = :mss
-            WHERE Id = :id
+                mss = :mss,
+                malop = :malop
+            WHERE id = :id
         ";
 
         $stmt = $this->conn->prepare($query);
@@ -104,16 +78,17 @@ class SinhvienModel
         $stmt->bindParam(':ten', $ten);
         $stmt->bindParam(':gioitinh', $gioitinh);
         $stmt->bindParam(':mss', $mss);
+        $stmt->bindParam(':malop', $malop);
 
         return $stmt->execute();
     }
 
-    // =========================
-    // XÓA SINH VIÊN
-    // =========================
+    // ======================
+    // DELETE
+    // ======================
     public function delete($id)
     {
-        $query = "DELETE FROM sinhvien WHERE Id = :id";
+        $query = "DELETE FROM sinhvien WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -121,64 +96,96 @@ class SinhvienModel
         return $stmt->execute();
     }
 
-    // =========================
+    // ======================
     // PHÂN TRANG
-    // =========================
-    public function paging($limit = 5, $offset = 0)
-    {
-        $query = "SELECT * FROM sinhvien LIMIT :limit OFFSET :offset";
-        $stmt = $this->conn->prepare($query);
-
-        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
-
-        $stmt->execute();
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // tổng record
-        $countQuery = $this->conn->prepare("SELECT COUNT(*) FROM sinhvien");
-        $countQuery->execute();
-        $totalRecord = $countQuery->fetchColumn();
-
-        $totalPage = ceil($totalRecord / $limit);
-
-        return [
-            "data" => $data,
-            "totalRecord" => $totalRecord,
-            "totalPage" => $totalPage,
-            "currentPage" => ($offset / $limit) + 1
-        ];
-    }
-}
-=======
-    public function paging($limit = 5, $offset = 0, $search = "")
+    // ======================
+ public function paging(
+    $limit = 5,
+    $offset = 0,
+    $keyword = '',
+    $lop = '',
+    $sort = 'mss',
+    $order = 'ASC'
+)
 {
-    // SQL lấy dữ liệu phân trang
-    $query = "SELECT * FROM sinhvien LIMIT :limit OFFSET :offset";
-    $stmt = $this->conn->prepare($query);
+    $sql = "SELECT sv.*, lh.tenlop
+            FROM sinhvien sv
+            LEFT JOIN lophoc lh ON sv.malop = lh.malop
+            WHERE 1=1";
 
-    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+    $params = [];
+
+    // Tìm kiếm
+    if (!empty($keyword)) {
+        $sql .= " AND (sv.ten LIKE :keyword OR sv.mss LIKE :keyword)";
+        $params[':keyword'] = "%{$keyword}%";
+    }
+
+    // Lọc theo lớp
+    if (!empty($lop)) {
+        $sql .= " AND sv.malop = :lop";
+        $params[':lop'] = trim($lop);
+    }
+
+    // Các cột được phép sắp xếp
+    $allowSort = [
+        'mss' => 'sv.mss',
+        'ten' => 'sv.ten'
+    ];
+
+    if (!array_key_exists($sort, $allowSort)) {
+        $sort = 'mss';
+    }
+
+    $order = strtoupper($order);
+    if ($order != 'ASC' && $order != 'DESC') {
+        $order = 'ASC';
+    }
+
+    $sql .= " ORDER BY " . $allowSort[$sort] . " " . $order;
+    $sql .= " LIMIT :limit OFFSET :offset";
+
+    $stmt = $this->conn->prepare($sql);
+
+    foreach ($params as $key => $value) {
+        $stmt->bindValue($key, $value);
+    }
+
+    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
 
     $stmt->execute();
+
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Đếm tổng số bản ghi
-    $countQuery = $this->conn->prepare("SELECT COUNT(*) FROM sinhvien");
-    $countQuery->execute();
-    $totalRecord = $countQuery->fetchColumn();
+    $countSql = "SELECT COUNT(*) FROM sinhvien WHERE 1=1";
 
-    // Tính tổng số trang
-    $totalPage = ceil($totalRecord / $limit);
+    if (!empty($keyword)) {
+        $countSql .= " AND (ten LIKE :keyword OR mss LIKE :keyword)";
+    }
+
+    if (!empty($lop)) {
+        $countSql .= " AND malop = :lop";
+    }
+
+    $countStmt = $this->conn->prepare($countSql);
+
+    if (!empty($keyword)) {
+        $countStmt->bindValue(':keyword', "%{$keyword}%");
+    }
+
+    if (!empty($lop)) {
+        $countStmt->bindValue(':lop', trim($lop));
+    }
+
+    $countStmt->execute();
+
+    $count = (int)$countStmt->fetchColumn();
 
     return [
-        "data" => $data,
-        "totalRecord" => $totalRecord,
-        "totalPage" => $totalPage,
-        "currentPage" => ($offset / $limit) + 1
+        'data' => $data,
+        'totalRecord' => $count,
+        'totalPage' => ceil($count / $limit)
     ];
-}
-
-}
-?>
->>>>>>> a7440723571c663c63b9dde9b293be2323a2229a
+}}

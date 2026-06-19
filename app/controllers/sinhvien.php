@@ -1,70 +1,72 @@
 <?php
-<<<<<<< HEAD
-require_once __DIR__ . '/../core/Controller.php';
 
-class Sinhvien extends Controller
-{
-    public function index()
-    {
-        $model = $this->model('SinhvienModel');
-        $data = $model->getAllSinhvien();
-
-        $this->view('layout/masterlayout', [
-            'viewname' => 'sinhvien/index',
-            'sinhvien' => $data
-        ]);
-=======
 require_once '../app/core/controller.php';
 
 class sinhvien extends Controller
 {
-    public function index()
+    // ==========================
+    // DANH SÁCH SINH VIÊN
+    // ==========================
+    public function index($pageSize = 5, $offset = 0)
     {
-        $sinhvienModel = $this->model('SinhvienModel');
+        $model = $this->model('SinhvienModel');
 
-        $sinhvien = $sinhvienModel->getAllSinhvien();
+        // Tìm kiếm
+        $keyword = $_GET['keyword'] ?? '';
 
-        $this->view(
-            'layout/masterlayout',
-            [
-                'viewname' => 'sinhvien/index',
-                'sinhvien' => $sinhvien
-            ]
+        // Lọc lớp
+        $lop = trim($_GET['lop'] ?? '');
+
+        // Sắp xếp
+        $sort = $_GET['sort'] ?? 'mss';
+        $order = $_GET['order'] ?? 'ASC';
+
+        // Lấy dữ liệu
+        $result = $model->paging(
+            $pageSize,
+            $offset,
+            $keyword,
+            $lop,
+            $sort,
+            $order
         );
->>>>>>> a7440723571c663c63b9dde9b293be2323a2229a
-    }
 
-    public function create()
-    {
-<<<<<<< HEAD
+        // Danh sách lớp
+        $lopModel = $this->model('LophocModel');
+        $lophoc = $lopModel->getAll();
+
+        // Hiển thị View
         $this->view('layout/masterlayout', [
-            'viewname' => 'sinhvien/create'
+            'viewname'    => 'sinhvien/index',
+            'sinhvien'    => $result['data'],
+            'totalRecord' => $result['totalRecord'],
+            'totalPage'   => $result['totalPage'],
+            'pageSize'    => $pageSize,
+            'offset'      => $offset,
+            'keyword'     => $keyword,
+            'lop'         => $lop,
+            'sort'        => $sort,
+            'order'       => $order,
+            'lophoc'      => $lophoc
         ]);
     }
-    public function edit($id)
-{
-    $sinhvienModel = $this->model('SinhvienModel');
 
-    $sv = $sinhvienModel->getById($id);
+    // ==========================
+    // FORM THÊM
+    // ==========================
+    public function create()
+    {
+        $lopModel = $this->model('LophocModel');
 
-    $this->view(
-        'layout/masterlayout',
-        [
-            'viewname' => 'sinhvien/edit',
-            'sinhvien' => $sv
-        ]
-    );
-}
-public function delete($id)
-{
-    $sinhvienModel = $this->model('SinhvienModel');
+        $this->view('layout/masterlayout', [
+            'viewname' => 'sinhvien/create',
+            'lophoc'   => $lopModel->getAll()
+        ]);
+    }
 
-    $sinhvienModel->delete($id);
-
-    header('Location: /sinhvien/index');
-    exit;
-}
-
+    // ==========================
+    // LƯU SINH VIÊN
+    // ==========================
     public function store()
     {
         $model = $this->model('SinhvienModel');
@@ -72,47 +74,70 @@ public function delete($id)
         $result = $model->create(
             $_POST['ten'] ?? '',
             $_POST['gioitinh'] ?? '',
-            $_POST['mss'] ?? ''
+            $_POST['mss'] ?? '',
+            $_POST['malop'] ?? ''
         );
 
         if ($result) {
             header('Location: /sinhvien/index');
             exit;
-        } else {
-            echo "Thêm mới sinh viên thất bại";
         }
+
+        echo "Thêm sinh viên thất bại!";
+    }
+
+    // ==========================
+    // FORM SỬA
+    // ==========================
+    public function edit($id)
+    {
+        $model = $this->model('SinhvienModel');
+        $lopModel = $this->model('LophocModel');
+
+        $this->view('layout/masterlayout', [
+            'viewname' => 'sinhvien/edit',
+            'sinhvien' => $model->getById($id),
+            'lophoc'   => $lopModel->getAll()
+        ]);
+    }
+
+    // ==========================
+    // CẬP NHẬT
+    // ==========================
+    public function update($id = null)
+    {
+        if ($id === null) {
+            $id = $_POST['id'] ?? null;
+        }
+
+        if (!$id) {
+            die("Không tìm thấy ID sinh viên.");
+        }
+
+        $model = $this->model('SinhvienModel');
+
+        $model->update(
+            $id,
+            $_POST['ten'] ?? '',
+            $_POST['gioitinh'] ?? '',
+            $_POST['mss'] ?? '',
+            $_POST['malop'] ?? ''
+        );
+
+        header('Location: /sinhvien/index');
+        exit;
+    }
+
+    // ==========================
+    // XÓA
+    // ==========================
+    public function delete($id)
+    {
+        $model = $this->model('SinhvienModel');
+
+        $model->delete($id);
+
+        header('Location: /sinhvien/index');
+        exit;
     }
 }
-=======
-        $this->view(
-            'layout/masterlayout',
-            [
-                'viewname' => 'sinhvien/create'
-            ]
-        );
-    }
-
-    public function store()
-    {
-        $ten = $_POST['ten'] ?? '';
-        $gioitinh = $_POST['gioitinh'] ?? '';
-        $mss = $_POST['mss'] ?? '';
-
-        $sinhvienModel = $this->model('SinhvienModel');
-
-        $result = $sinhvienModel->create($ten, $gioitinh, $mss);
-
-        if ($result) {
-
-            header(
-                'Location: /PMNM_68PM3_MORLVOTEY_5001568-MAIN/public/sinhvien/index'
-            );
-            exit;
-
-        } else {
-
-            echo "Thêm mới sinh viên thất bại";
-        }
-    }
-} // đóng class
->>>>>>> a7440723571c663c63b9dde9b293be2323a2229a
